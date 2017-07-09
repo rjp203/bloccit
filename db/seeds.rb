@@ -1,9 +1,9 @@
 require 'random_data'
 
-50.times do
+25.times do
   Post.create!(
     title: RandomData.random_sentence,
-    body:  RandomData.random_paragraph
+    body:  RandomData.random_paragraph,
   )
 end
 posts = Post.all
@@ -17,4 +17,4 @@ end
 
 puts "Seed finished"
 puts "#{Post.count} posts created"
-puts "#{Comment.count} comments created"
+# puts "#{Comment.count} comments created"
