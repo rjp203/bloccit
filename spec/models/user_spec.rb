@@ -34,5 +34,13 @@ RSpec.describe User, type: :model do
       expect(user_with_invalid_email).to_not be_valid
     end
   end
+    
+  describe "attributes" do
+    it "formats the user name" do
+      user.name = "bloc user"
+      user.save
+      expect(user.name).to eq "Bloc User"
+    end
+  end
   
 end
