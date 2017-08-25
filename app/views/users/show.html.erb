@@ -11,16 +11,53 @@
       <div class="media-body">
         <h2 class="media-heading"><%= @user.name %></h2>
         <small>
-          <%= pluralize(@user.posts.count, 'post') %>,
-          <%= pluralize(@user.comments.count, 'comment') %>
+          <%= pluralize(@user.posts.count, 'Post') %>,
+          <%= pluralize(@user.comments.count, 'Comment') %>,
+          <%= pluralize(@user.favorites.count, 'Favorite') %>
         </small>
       </div>
     </div>
   </div>
 </div>
- 
-<h2>Posts</h2>
-<%= render @user.posts %>
- 
-<h2>Comments</h2>
-<%= render @user.comments %>
+
+<div>
+  <% if user_has_posts? %>
+    <h2>Posts</h2>
+      <%= render @user.posts %>
+  <% else %>
+    <h4><%= "#{@user.name} has not submitted any posts yet." %></h4>
+  <% end %>
+</div>
+
+<div>
+  <% if user_has_comments? %>
+    <h2>Comments</h2>
+      <%= render @user.comments %>
+  <% else %>
+    <h4><%= "#{@user.name} has not submitted any comments yet." %></h4>
+  <% end %>
+</div>
+
+<div>
+  <% if user_has_favorites? %>
+    <h2>Favorites</h2>
+      <% @user.favorites.each do |favorite| %>
+        <h4><%= link_to favorite.post.title, topic_post_path(favorite.post.topic, favorite.post) %></h4>
+          <div>
+            <%= image_tag favorite.post.user.avatar_url(32) %>
+          </div>
+            <small>
+              <%= pluralize(favorite.post.comments.count, 'Comment') %> /
+              <%= pluralize(favorite.post.up_votes, 'Up Vote') %>, 
+              <%= pluralize(favorite.post.down_votes, 'Down Vote') %>
+            </small>
+          </br>
+        <%= link_to [favorite.post, favorite], class: 'btn btn-danger', method: :delete do %>
+          <i class="glyphicon glyphicon-star-empty"> </i>&nbsp; Unfavorite
+      <% end %></br>
+      </br>
+    <% end %>
+  <% else %>
+    <h4><%= "#{@user.name} has no favorites yet." %></h4>
+  <% end %>
+</div> 

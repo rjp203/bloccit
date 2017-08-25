@@ -19,8 +19,13 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts.visible_to(current_user)
+    @favorites = @user.favorites
   end
   
+  def favorite_for(post)
+    favorites.where(post_id: post.id).first
+  end
+
   private
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
